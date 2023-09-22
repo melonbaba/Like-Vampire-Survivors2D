@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
 {
     public Vector2 inputVec;
     public float speed;
+    public Scanner scanner;
 
     Rigidbody2D rb;
     SpriteRenderer spriter;
@@ -19,6 +20,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        scanner = GetComponent<Scanner>();
     }
 
     private void FixedUpdate()//물리 연산 프레임마다 호출됨
