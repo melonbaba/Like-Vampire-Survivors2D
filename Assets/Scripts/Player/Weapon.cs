@@ -17,24 +17,36 @@ public class Weapon : MonoBehaviour
 
     private void Awake()
     {
-        player = GetComponentInParent<Player>();
+        player = GameManager.Ins.player;
     }
 
-    private void Start()
+    public void Init(ItemData data)
     {
-        Init();
-    }
+        name = "Weapon" + data.itemId;//GameObj Name
+        transform.parent = player.transform;
+        transform.localPosition = Vector3.zero;
 
-    public void Init()
-    {
+        id = data.itemId;
+        damage = data.baseDamage;
+        count = data.baseCount;
+
+        for (int i = 0; i < GameManager.Ins.poolMgr.prefabs.Length; i++)
+        {
+            if (data.projectile == GameManager.Ins.poolMgr.prefabs[i])
+            {
+                prefabId = i;
+                break;
+            }
+        }
+
         switch (id)
         {
             case 0:
-                speed = -150;//'+' = 반시께 방향, '-' = 시계방향.
+                speed = 150;//'+' = 반시께 방향, '-' = 시계방향.
                 SetPos();
                 break;
             case 1:
-                speed = 0.3f;//연사속도
+                speed = 0.5f;//연사속도
                 break;
             default:
                 break;
