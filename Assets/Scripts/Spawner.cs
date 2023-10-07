@@ -15,6 +15,9 @@ public class Spawner : MonoBehaviour
     }
     void Update()
     {
+        if (!GameManager.Ins.isFlowTime)
+            return;
+
         timer += Time.deltaTime;//deltaTime = 하나의 프레임이 소비한 시간
         level = Mathf.Min(Mathf.FloorToInt(GameManager.Ins.gameTime / 10f), spawnData.Length - 1);//Floor = 버림.
 

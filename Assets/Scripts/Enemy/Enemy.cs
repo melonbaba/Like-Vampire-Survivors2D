@@ -46,6 +46,9 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!GameManager.Ins.isFlowTime)
+            return;
+
         //GetCurrentAnimatorStateInfo = 애니메이션의 현재 상태 정보를 가져옴.
         //GetCurrentAnimatorStateInfo(0) = Base Layer
         if (!isLive || anim.GetCurrentAnimatorStateInfo(0).IsName("Hit"))
@@ -60,6 +63,9 @@ public class Enemy : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (!GameManager.Ins.isFlowTime)
+            return;
+
         if (!isLive)
             return;
 

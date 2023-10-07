@@ -5,7 +5,7 @@ using UnityEngine;
 public class Gear : MonoBehaviour
 {
     public ItemData.ItemType type;
-    public float rate;//연사력
+    public float rate;
 
     public void Init(ItemData data)
     {
@@ -15,13 +15,28 @@ public class Gear : MonoBehaviour
 
         type = data.itemType;
         rate = data.damages[0];
+
+        ApplyGear();
     }
 
     public void LevelUP(float rate)
     {
         this.rate = rate;
+        ApplyGear();
     }
 
+    void ApplyGear()
+    {
+        switch (type)
+        {
+            case ItemData.ItemType.Glove:
+                RateUp();
+                break;
+            case ItemData.ItemType.Shoes:
+                SpeedUp();
+                break;
+        }
+    }
     void RateUp()
     {
         Weapon[] weapons = transform.parent.GetComponentsInChildren<Weapon>();
@@ -35,6 +50,7 @@ public class Gear : MonoBehaviour
                 case 1://원거리
                     weapon.speed = 0.5f * (1f - rate);
                     break;
+                default: break;
             }
         }
     }

@@ -51,10 +51,21 @@ public class Weapon : MonoBehaviour
             default:
                 break;
         }
+        //Hand Set
+        Hand hand = player.hands[(int)data.itemType];
+        hand.spriter.sprite = data.hand;
+        hand.gameObject.SetActive(true);
+
+        //새로운 무기가 추가 될 때 Gear의 변경사항을 적용하기 위함.
+        player.BroadcastMessage("ApplyGear", SendMessageOptions.DontRequireReceiver);//BroadcastMessage : 특정 함수 호출을 모든 자식에게 방송하는 함수.
+                                                                                     //DontRequireReceiver : Receiver가 없어도 불러달라. 이때, Receiver는 Gear.cs임
     }
 
     private void Update()
     {
+        if (!GameManager.Ins.isFlowTime)
+            return;
+
         switch (id)
         {
             case 0:
@@ -71,10 +82,6 @@ public class Weapon : MonoBehaviour
             default:
                 break;
         }
-        //if (Input.GetButtonDown("Jump"))
-        //{
-        //    LevelUp(10, 1);
-        //}
     }
 
     void SetPos()
@@ -113,6 +120,8 @@ public class Weapon : MonoBehaviour
 
         if (id == 0)
             SetPos();//LevelUP시 근접 무기 재배치.
+
+        player.BroadcastMessage("ApplyGear", SendMessageOptions.DontRequireReceiver);
     }
 
     private void Fire()

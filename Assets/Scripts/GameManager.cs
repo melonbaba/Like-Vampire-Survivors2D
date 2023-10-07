@@ -10,10 +10,12 @@ public class GameManager : MonoBehaviour
     [Header("# GameObject")]
     public Player player;
     public PoolMgr poolMgr;
+    public LevelUpUI uiLevelUp;
 
     [Header("# Game Control")]
     public float gameTime;
     public float maxGameTime = 2 * 10f;
+    public bool isFlowTime;
 
     [Header("# Player Info")]
     public int heatlh;
@@ -32,9 +34,15 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         heatlh = maxHealth;
+
+        uiLevelUp.Select(0);//초기 Player에게 무기를 제공
+
     }
     private void Update()
     {
+        if (!isFlowTime)
+            return;
+
         gameTime += Time.deltaTime;
 
         if (gameTime > maxGameTime)
@@ -46,11 +54,23 @@ public class GameManager : MonoBehaviour
     public void GetExp()
     {
         exp++;
-        if(exp == nextexp[level])
+        if(exp == nextexp[Mathf.Min(level, nextexp.Length - 1)])//설정된 경험치 초과 방지
         {
             level++;
             exp = 0;
+            uiLevelUp.Show();
         }
     }
 
+    public void Stop()
+    {
+        isFlowTime = false;
+        Time.timeScale = 0f;
+    }
+
+    public void Resume()
+    {
+        isFlowTime = true;
+        Time.timeScale = 1f;
+    }
 }
